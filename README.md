@@ -66,17 +66,13 @@ was longer ago than a specified number of seconds.
 MinioRunner.config.cache_time = 86_400 # Default: 86,400 Seconds (24 hours)
 ```
 
+Alternatively, you can define the time via the `MINIO_RUNNER_CACHE_TIME` environment variable.
+The environment variable will take precedence.
+
 ### Rake tasks
 
-There are rake tasks to manually install, update, or remove the minio server binary:
-
-```
-bundle exec rake minio_runner:install
-bundle exec rake minio_runner:remove
-bundle exec rake minio_runner:version
-bundle exec rake minio_runner:update
-bundle exec rake minio_runner:list_configurable_env
-```
+You can run `bundle exec rake -T -a` to see all the rake tasks. The ones specifically related to
+minio runner will be namespaced into minio_runner. 
 
 ### Logging
 
@@ -87,7 +83,8 @@ The available values are found in https://ruby-doc.org/stdlib-2.4.0/libdoc/logge
 ## Minio configuration
 
 Only a small subset of minio configuration (defined at https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#environment-variables)
-is supported. The subset of configuration options can be found [AT THE CONFIG.RB FILE].
+is supported. The subset of configuration options can be found from running the `list_configurable_env`
+rake task.
 
 All minio configuration can also be specified via `MinioRunner.config`, and anything
 set in this way will override environment variables. Environment variables should
@@ -122,7 +119,8 @@ MinioRunner.config.buckets = ["testbucket", "videos"]
 # MINIO_RUNNER_BUCKETS="testbucket,videos"
 ```
 
-Buckets will be made public to anonymous users if they are specified in the `public_buckets` configuration.
+Buckets will be made public to anonymous users if they are specified in the `public_buckets` configuration,
+which can also be set with the `MINIO_RUNNER_PUBLIC_BUCKETS` environment variable.
 
 ### Hosts file
 

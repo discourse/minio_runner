@@ -35,8 +35,12 @@ module MinioRunner
         end
       end
 
+      def valid_platform?
+        mac? || linux?
+      end
+
       def validate_platform
-        if !mac? || linux?
+        if !valid_platform?
           raise MinioRunner::System::InvalidPlatform.new(
                   "MinioRunner only supports Mac, macOS and Linux.",
                 )
@@ -47,8 +51,17 @@ module MinioRunner
         Gem::Platform.local.os[/darwin|mac os/]
       end
 
+      def mac_m?
+        mac? && Gem::Platform.local.cpu === "arm64"
+      end
+
       def linux?
         Gem::Platform.local.os[/linux/]
+      end
+
+      def exit_hook
+        pid = Process.pid
+        at_exit { yield if Process.pid == pid }
       end
     end
   end
