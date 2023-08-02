@@ -53,6 +53,7 @@ module MinioRunner
 
       MinioRunner.logger.debug("Stopping minio server running at pid #{@pid}...")
       @process.stop(SERVER_STOP_TIMEOUT_SECONDS)
+      @process = nil
       MinioRunner.logger.debug("minio server stopped")
     end
 

@@ -80,6 +80,8 @@ The logging level can be configured for debugging purpose via the `MINIO_RUNNER_
 
 The available values are found in https://ruby-doc.org/stdlib-2.4.0/libdoc/logger/rdoc/Logger/Severity.html.
 
+The minio server will log to the `install_dir` in a `minio.log` file.
+
 ## Minio configuration
 
 Only a small subset of minio configuration (defined at https://min.io/docs/minio/linux/reference/minio-server/minio-server.html#environment-variables)

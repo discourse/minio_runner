@@ -2,7 +2,7 @@
 
 module MinioRunner
   class Config
-    attr_accessor :install_dir, :cache_time, :buckets, :public_buckets
+    attr_accessor :install_dir, :cache_time, :buckets, :public_buckets, :log_level
     attr_accessor :minio_data_directory,
                   :minio_root_user,
                   :minio_root_password,
