@@ -89,7 +89,7 @@ module MinioRunner
       logger.debug("Stopped minio_runner.")
     end
 
-    def reset!
+    def reset_config!
       @config = nil
     end
 

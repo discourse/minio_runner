@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestMinioRunner < Minitest::Test
+  def teardown
+    MinioRunner.reset_config!
+  end
+
   def test_that_it_has_a_version_number
     refute_nil ::MinioRunner::VERSION
   end

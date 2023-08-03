@@ -17,6 +17,10 @@ class TestMinioBinaryManager < Minitest::Test
     MinioRunner::System.make_install_dir
   end
 
+  def teardown
+    MinioRunner.reset_config!
+  end
+
   class NetworkGetStub
     class << self
       def call(url)

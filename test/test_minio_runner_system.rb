@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestMinioRunnerSystem < Minitest::Test
+  def teardown
+    MinioRunner.reset_config!
+  end
+
   def described_class
     MinioRunner::System
   end

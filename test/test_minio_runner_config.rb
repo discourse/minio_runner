@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestMinioRunnerConfig < Minitest::Test
+  def teardown
+    MinioRunner.reset_config!
+  end
+
   def test_that_config_can_be_defined_with_env_var_or_directly_and_overrides_default
     assert_equal(
       MinioRunner.config.install_dir,
@@ -11,7 +15,7 @@ class TestMinioRunnerConfig < Minitest::Test
     MinioRunner.config.install_dir = "~/.mrun"
     assert_equal(MinioRunner.config.install_dir, File.expand_path("~/.mrun"))
 
-    MinioRunner.reset!
+    MinioRunner.reset_config!
     mock_env("MINIO_RUNNER_INSTALL_DIR" => "~/.mrun2") do
       assert_equal(MinioRunner.config.install_dir, File.expand_path("~/.mrun2"))
     end
