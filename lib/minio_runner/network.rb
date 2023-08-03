@@ -39,7 +39,7 @@ module MinioRunner
 
         yield tempfile if block_given?
       ensure
-        tempfile.close!
+        tempfile&.close!
       end
     end
   end
