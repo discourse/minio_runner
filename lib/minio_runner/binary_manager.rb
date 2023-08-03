@@ -37,6 +37,8 @@ module MinioRunner
 
       Network.download(binary.platform_sha256sum_url) do |sha_file|
         new_version = File.read(sha_file.path)
+        FileUtils.cp(sha_file, File.join(MinioRunner.config.install_dir, binary.sha_file_name))
+        FileUtils.cp(sha_file, File.join(MinioRunner.config.install_dir, binary.version_file_name))
       end
 
       old_version != new_version
