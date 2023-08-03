@@ -59,5 +59,11 @@ module MinioRunner
     def minio_data_directory=(dir)
       @minio_data_directory = File.expand_path(dir)
     end
+
+    def minio_server_urls
+      urls = ["http://#{minio_domain}:#{minio_port}"]
+      buckets.each { |bucket| urls << "http://#{bucket}.#{minio_domain}:#{minio_port}" }
+      urls
+    end
   end
 end

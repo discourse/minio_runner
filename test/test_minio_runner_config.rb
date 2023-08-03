@@ -30,4 +30,13 @@ class TestMinioRunnerConfig < Minitest::Test
     MinioRunner.config.minio_data_directory = "~/.mrun"
     assert_equal(MinioRunner.config.minio_data_directory, File.expand_path("~/.mrun"))
   end
+
+  def test_minio_server_urls
+    MinioRunner.config.buckets = %w[test1 test2]
+    MinioRunner.config.minio_domain = "minio.local"
+    assert_equal(
+      MinioRunner.config.minio_server_urls,
+      %w[http://minio.local:9000 http://test1.minio.local:9000 http://test2.minio.local:9000],
+    )
+  end
 end
