@@ -26,7 +26,7 @@ namespace :minio_runner do
   end
 
   desc "Forces an update of the binaries. Equivalent to running the remove then install tasks."
-  task :install do
+  task :update do
     MinioRunner.remove_install_dir
     MinioRunner.install_binaries
   end
