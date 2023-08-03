@@ -24,6 +24,26 @@ module MinioRunner
       def binary_file_path
         File.join(MinioRunner.config.install_dir, name)
       end
+
+      def platform_binary_url
+        "#{platform_base_url}#{name}"
+      end
+
+      def platform_sha256sum_url
+        "#{platform_binary_url}.sha256sum"
+      end
+
+      def name
+        raise NotImplementedError
+      end
+
+      def base_url
+        raise NotImplementedError
+      end
+
+      def platform_base_url
+        raise NotImplementedError
+      end
     end
   end
 end

@@ -18,16 +18,11 @@ module MinioRunner
 
     def install
       if installed?
-        if File.exist?(binary.version_file_path)
-          if version_cache_expired? && new_version_available?
-            MinioRunner.logger.debug("New version of #{binary.name} available. Downloading...")
-            download_binary
-          else
-            MinioRunner.logger.debug("Version for #{binary.name} is up to date.")
-          end
-        else
-          MinioRunner.logger.debug("Version file for #{binary.name} not found. Downloading...")
+        if version_cache_expired? && new_version_available?
+          MinioRunner.logger.debug("New version of #{binary.name} available. Downloading...")
           download_binary
+        else
+          MinioRunner.logger.debug("Version for #{binary.name} is up to date.")
         end
       else
         MinioRunner.logger.debug("#{binary.name} not installed. Downloading...")
@@ -37,12 +32,11 @@ module MinioRunner
     end
 
     def new_version_available?
-      old_version = nil
+      old_version = File.read(binary.version_file_path)
       new_version = nil
 
       Network.download(binary.platform_sha256sum_url) do |sha_file|
         new_version = File.read(sha_file.path)
-        old_version = File.read(binary.version_file_path)
       end
 
       old_version != new_version
@@ -62,11 +56,11 @@ module MinioRunner
     end
 
     def installed?
-      File.exist?(binary.binary_file_path)
+      File.exist?(binary.binary_file_path) && File.exist?(binary.version_file_path)
     end
 
     def version_cache_expired?
-      Time.now - File.mtime(binary.version_file_path) < MinioRunner.config.cache_time
+      Time.now - File.mtime(binary.version_file_path) > MinioRunner.config.cache_time
     end
   end
 end

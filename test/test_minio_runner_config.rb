@@ -16,4 +16,14 @@ class TestMinioRunnerConfig < Minitest::Test
       assert_equal(MinioRunner.config.install_dir, File.expand_path("~/.mrun2"))
     end
   end
+
+  def test_that_install_dir_expands_path
+    MinioRunner.config.install_dir = "~/.mrun"
+    assert_equal(MinioRunner.config.install_dir, File.expand_path("~/.mrun"))
+  end
+
+  def test_that_minio_data_directory_expands_path
+    MinioRunner.config.minio_data_directory = "~/.mrun"
+    assert_equal(MinioRunner.config.minio_data_directory, File.expand_path("~/.mrun"))
+  end
 end

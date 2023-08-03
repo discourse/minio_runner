@@ -48,6 +48,17 @@ module MinioRunner
           end
     end
 
+    def start
+      logger.debug("Starting minio_runner...")
+
+      install_binaries
+      start_server
+      setup_alias
+      setup_buckets
+
+      logger.debug("Started minio_runner.")
+    end
+
     def install_binaries
       System.validate_platform
       System.make_install_dir
@@ -55,17 +66,8 @@ module MinioRunner
       MinioRunner::BinaryManager.install(MinioRunner::MinioBinary)
     end
 
-    def start
-      logger.debug("Starting minio_runner...")
-
-      install_binaries
-
-      # TODO (martin) Add more error checking etc.
+    def start_server
       MinioRunner::MinioServerManager.start
-      setup_alias
-      setup_buckets
-
-      logger.debug("Started minio_runner.")
     end
 
     def setup_alias
@@ -93,7 +95,7 @@ module MinioRunner
 
     def remove_install_dir
       logger.info("Removing MinioRunner install directory at #{MinioRunner.config.install_dir}...")
-      FileUtils.rm_rf(MinioRunner.config.install_dir)
+      FileUtils.rm_rf(MinioRunner.config.install_dir) if Dir.exist?(MinioRunner.config.install_dir)
       logger.info("Done removing MinioRunner install directory.")
     end
   end

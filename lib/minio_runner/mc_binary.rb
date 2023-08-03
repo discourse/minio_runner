@@ -13,14 +13,6 @@ module MinioRunner
         "https://dl.min.io/client/mc/release"
       end
 
-      def platform_binary_url
-        "#{platform_base_url}#{name}"
-      end
-
-      def platform_sha256sum_url
-        "#{platform_binary_url}.sha256sum"
-      end
-
       def platform_base_url
         if System.linux?
           "#{base_url}/linux-amd64/"

@@ -37,7 +37,7 @@ module MinioRunner
             "MINIO_ROOT_PASSWORD" => MinioRunner.config.minio_root_password,
             "MINIO_DOMAIN" => MinioRunner.config.minio_domain,
           },
-          log_file: "#{MinioRunner.config.install_dir}/minio.log",
+          log_file: log_file_path,
         )
 
       @process.start
@@ -80,8 +80,8 @@ module MinioRunner
       command
     end
 
-    def log_dir
-      MinioRunner.config.install_dir + "/minio.log"
+    def log_file_path
+      "#{MinioRunner.config.install_dir}/minio.log"
     end
 
     def health_check(retries:)
@@ -94,7 +94,7 @@ module MinioRunner
           sleep 1
           health_check(retries: retries - 1)
         else
-          raise "NO HEALTHY "
+          raise "Minio server failed to start."
         end
       end
     end
