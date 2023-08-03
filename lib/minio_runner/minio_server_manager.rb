@@ -15,6 +15,7 @@ module MinioRunner
       end
 
       def stop
+        return if @server.nil?
         @server.stop
       end
     end
