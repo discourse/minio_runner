@@ -87,9 +87,7 @@ module MinioRunner
 
     def health_check(retries:)
       begin
-        Network.get(
-          "http://#{MinioRunner.config.minio_domain}:#{MinioRunner.config.minio_port}/minio/health/live",
-        )
+        Network.get("#{MinioRunner.config.minio_server_url}/minio/health/live")
       rescue StandardError
         if retries.positive?
           sleep 1
