@@ -116,9 +116,9 @@ starts using the `MinioRunner.config` call above or using the `MINIO_RUNNER_BUCK
 variable with a comma-separated list. Only S3-compatible buckets will be made.
 
 ```ruby
-MinioRunner.config.buckets = ["testbucket", "videos"]
+MinioRunner.config.buckets = ["testbucket", "media"]
 
-# MINIO_RUNNER_BUCKETS="testbucket,videos"
+# MINIO_RUNNER_BUCKETS="testbucket,media"
 ```
 
 Buckets will be made public to anonymous users if they are specified in the `public_buckets` configuration,
@@ -134,7 +134,18 @@ For example:
 
 ```
 127.0.0.1 minio.local
-127.0.0.1 videos.minio.local
+127.0.0.1 testbucket.minio.local
+```
+
+For macOS, there are some issues which cause large delays for .local domain names. See
+https://superuser.com/a/1297335/245469 and https://stackoverflow.com/a/17982964/875941. To
+resolve this, you need to add IPV6 lookup addresses to the hosts file, and it helps to put
+all the entries on one line.
+
+```
+::1 minio.local testbucket.minio.local
+fe80::1%lo0 minio.local testbucket.minio.local
+127.0.0.1 minio.local testbucket.minio.local
 ```
 
 ## Development
