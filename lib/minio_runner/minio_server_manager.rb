@@ -76,7 +76,7 @@ module MinioRunner
 
       # flags for minio
       command << "--console-address :#{MinioRunner.config.minio_console_port}"
-      command << "--address :#{MinioRunner.config.minio_port}"
+      command << "--address #{MinioRunner.config.minio_domain}:#{MinioRunner.config.minio_port}"
 
       command
     end

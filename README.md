@@ -23,13 +23,13 @@ project.
 In your Gemfile:
 
 ```ruby
-ruby gem 'minio_runner', require: false
+gem 'minio_runner', require: false
 ```
 
 In your project:
 
 ```ruby
-ruby require 'minio_runner'
+require 'minio_runner'
 ```
 
 The minio runner will not automatically locate, download, and start minio. You
