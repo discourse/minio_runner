@@ -18,6 +18,10 @@ module MinioRunner
         return if @server.nil?
         @server.stop
       end
+
+      def log_file_path
+        "#{MinioRunner.config.install_dir}/minio.log"
+      end
     end
 
     def start
@@ -38,7 +42,7 @@ module MinioRunner
             "MINIO_ROOT_PASSWORD" => MinioRunner.config.minio_root_password,
             "MINIO_DOMAIN" => MinioRunner.config.minio_domain,
           },
-          log_file: log_file_path,
+          log_file: MinioServerManager.log_file_path,
         )
 
       @process.start
@@ -79,10 +83,6 @@ module MinioRunner
       command << "--address #{MinioRunner.config.minio_domain}:#{MinioRunner.config.minio_port}"
 
       command
-    end
-
-    def log_file_path
-      "#{MinioRunner.config.install_dir}/minio.log"
     end
 
     def health_check(retries:)
