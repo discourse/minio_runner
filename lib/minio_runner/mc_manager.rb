@@ -8,13 +8,19 @@ module MinioRunner
       end
 
       def bucket_exists?(alias_name, name)
-        system(*command.concat(["ls", "#{alias_name}/#{name}"]))
+        system(
+          *command.concat(["ls", "#{alias_name}/#{name}"]),
+          out: MinioServerManager.log_file_path,
+        )
       end
 
       def create_bucket(alias_name, name)
         MinioRunner.logger.debug("Creating bucket #{alias_name}/#{name}...")
         if !bucket_exists?(alias_name, name)
-          system(*command.concat(["mb", "#{alias_name}/#{name}"]))
+          system(
+            *command.concat(["mb", "#{alias_name}/#{name}"]),
+            out: MinioServerManager.log_file_path,
+          )
           MinioRunner.logger.debug("Created  #{alias_name}/#{name}.")
         else
           MinioRunner.logger.debug("Bucket #{alias_name}/#{name} already exists, doing nothing.")
@@ -34,6 +40,7 @@ module MinioRunner
               MinioRunner.config.minio_root_password,
             ],
           ),
+          out: MinioServerManager.log_file_path,
         )
         MinioRunner.logger.debug("Set alias #{name} to #{url}.")
       end
@@ -42,7 +49,10 @@ module MinioRunner
         MinioRunner.logger.debug(
           "Setting anonymous access for #{alias_name}/#{bucket} to policy #{policy}...",
         )
-        system(*command.concat(["anonymous", "set", policy, "#{alias_name}/#{bucket}"]))
+        system(
+          *command.concat(["anonymous", "set", policy, "#{alias_name}/#{bucket}"]),
+          out: MinioServerManager.log_file_path,
+        )
         MinioRunner.logger.debug("Anonymous access set for #{alias_name}/#{bucket}.")
       end
     end
