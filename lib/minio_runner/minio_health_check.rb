@@ -21,8 +21,8 @@ module MinioRunner
             message =
               "Minio server failed to start after #{initial_retries + 1} attempts. Check that /etc/hosts is configured properly."
 
-            if MinioRunner::System.mac? && MinioRunner.config.minio_domain.ends_with?(".local")
-              message += Minio Runner::Network::MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE
+            if MinioRunner::System.mac? && MinioRunner.config.minio_domain.end_with?(".local")
+              message += "\n\n" + MinioRunner::Network::MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE
             end
 
             raise MinioRunner::Network::NetworkError.new(message)

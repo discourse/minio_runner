@@ -32,14 +32,13 @@ module MinioRunner
             uri.host,
             uri.port,
             use_ssl: uri.scheme == "https",
-            read_timeout: 1,
-            open_timeout: 1,
-            write_timeout: 1,
+            open_timeout: MinioRunner::System.mac? ? 10 : 3,
           ) { |http| response = http.get(uri.path) }
         rescue SocketError, Net::OpenTimeout => err
           MinioRunner.logger.debug(
             "Connection error when checking minio server health: #{err.message}",
           )
+          log_time_error(request_start_time)
           raise MinioRunner::Network::NetworkError.new(
                   "Connection error, cannot reach URL: #{url} (#{err.class})",
                 )
@@ -49,10 +48,7 @@ module MinioRunner
 
         case response
         when Net::HTTPSuccess
-          if (Time.now - request_start_time) > Network::LONG_RESPONSE_TIME_SECONDS &&
-               MinioRunner.config.minio_domain.ends_with?(".local") && MinioRunner::System.mac?
-            MinioRunner.logger.warn(MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE)
-          end
+          log_time_error(request_start_time)
           response.body
         else
           raise MinioRunner::Network::NetworkError.new(
@@ -76,6 +72,13 @@ module MinioRunner
         yield tempfile if block_given?
       ensure
         tempfile&.close!
+      end
+
+      def log_time_error(request_start_time)
+        if (Time.now - request_start_time) > Network::LONG_RESPONSE_TIME_SECONDS &&
+             MinioRunner.config.minio_domain.end_with?(".local") && MinioRunner::System.mac?
+          MinioRunner.logger.warn(MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE.delete("\n"))
+        end
       end
     end
   end
