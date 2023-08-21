@@ -48,7 +48,7 @@ module MinioRunner
       @process.start
 
       # Make sure the minio server is ready to accept requests.
-      health_check(retries: 3)
+      MinioRunner::MinioHealthCheck.call(retries: 2)
 
       MinioRunner.logger.debug("minio server running at pid #{@process.pid}!")
     end
@@ -83,19 +83,6 @@ module MinioRunner
       command << "--address #{MinioRunner.config.minio_domain}:#{MinioRunner.config.minio_port}"
 
       command
-    end
-
-    def health_check(retries:)
-      begin
-        Network.get("#{MinioRunner.config.minio_server_url}/minio/health/live")
-      rescue StandardError
-        if retries.positive?
-          sleep 1
-          health_check(retries: retries - 1)
-        else
-          raise "Minio server failed to start."
-        end
-      end
     end
   end
 end

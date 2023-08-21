@@ -7,6 +7,7 @@ require_relative "minio_runner/config"
 require_relative "minio_runner/minio_binary"
 require_relative "minio_runner/mc_binary"
 require_relative "minio_runner/binary_manager"
+require_relative "minio_runner/minio_health_check"
 require_relative "minio_runner/minio_server_manager"
 require_relative "minio_runner/mc_manager"
 
