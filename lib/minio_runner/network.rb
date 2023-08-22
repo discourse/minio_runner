@@ -77,7 +77,7 @@ module MinioRunner
       def log_time_error(request_start_time)
         if (Time.now - request_start_time) > Network::LONG_RESPONSE_TIME_SECONDS &&
              MinioRunner.config.minio_domain.end_with?(".local") && MinioRunner::System.mac?
-          MinioRunner.logger.warn(MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE.delete("\n"))
+          MinioRunner.logger.warn(MAC_OS_LOCAL_DOMAIN_ERROR_MESSAGE)
         end
       end
     end

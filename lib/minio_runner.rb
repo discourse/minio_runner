@@ -39,12 +39,7 @@ module MinioRunner
             original_formatter = logger.formatter || Logger::Formatter.new
             logger.formatter =
               proc do |severity, time, progname, msg|
-                original_formatter.call(
-                  severity,
-                  time,
-                  progname,
-                  "[MinioRunner]: #{msg.strip.dump}",
-                )
+                original_formatter.call(severity, time, progname, "[MinioRunner]: #{msg.strip}")
               end
           end
     end
