@@ -7,6 +7,7 @@ require_relative "minio_runner/config"
 require_relative "minio_runner/minio_binary"
 require_relative "minio_runner/mc_binary"
 require_relative "minio_runner/binary_manager"
+require_relative "minio_runner/minio_health_check"
 require_relative "minio_runner/minio_server_manager"
 require_relative "minio_runner/mc_manager"
 
@@ -38,12 +39,7 @@ module MinioRunner
             original_formatter = logger.formatter || Logger::Formatter.new
             logger.formatter =
               proc do |severity, time, progname, msg|
-                original_formatter.call(
-                  severity,
-                  time,
-                  progname,
-                  "[MinioRunner]: #{msg.strip.dump}",
-                )
+                original_formatter.call(severity, time, progname, "[MinioRunner]: #{msg.strip}")
               end
           end
     end
