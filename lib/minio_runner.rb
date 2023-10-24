@@ -13,6 +13,8 @@ require_relative "minio_runner/mc_manager"
 
 module MinioRunner
   class << self
+    @@started = false
+
     def config(&block)
       @config ||= MinioRunner::Config.new
       if block_given?
@@ -53,6 +55,12 @@ module MinioRunner
       setup_buckets
 
       logger.debug("Started minio_runner.")
+
+      @@started = true
+    end
+
+    def started?
+      @@started
     end
 
     def install_binaries
@@ -80,9 +88,11 @@ module MinioRunner
     end
 
     def stop
+      return if !started?
       logger.debug("Stopping minio_runner...")
       MinioRunner::MinioServerManager.stop
       logger.debug("Stopped minio_runner.")
+      @@started = false
     end
 
     def reset_config!

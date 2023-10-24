@@ -71,7 +71,7 @@ class TestMinioBinaryManager < Minitest::Test
     end
 
     # cache is determined by the mtime of the version file
-    `touch -d "2 days ago" #{TestBinary.version_file_path}`
+    `touch -d "#{(DateTime.now - 3).strftime("%Y-%m-%dT%H:%M:00")}" #{TestBinary.version_file_path}`
 
     MinioRunner::Network.stub :get, NetworkGetStub do
       download_spy = Spy.on(MinioRunner::Network, :download)
