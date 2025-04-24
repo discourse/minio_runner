@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Release Gem
-        uses: discourse/publish-rubygems-action@v2
+        uses: discourse/publish-rubygems-action@v3
         env:
           RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
           GIT_EMAIL: team@discourse.org
