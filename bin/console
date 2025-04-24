@@ -15,7 +15,7 @@ def reload!
   puts "Reloading ..." if print
   root_dir = File.expand_path("..", __dir__)
   reload_dirs = %w[lib]
-  reload_dirs.each { |dir| Dir.glob("#{root_dir}/#{dir}/**/*.rb").each { |f| load(f) } }
+  reload_dirs.each { |dir| Dir.glob("#{root_dir}/#{dir}/**/*.rb").each { |f| require_relative(f) } }
   true
 end
 

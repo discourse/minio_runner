@@ -35,4 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "spy"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-byebug"
+
+  spec.required_ruby_version = ">= 3.3.0"
 end
