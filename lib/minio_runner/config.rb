@@ -2,13 +2,14 @@
 
 module MinioRunner
   class Config
-    attr_accessor :install_dir, :cache_time, :buckets, :public_buckets, :log_level
-    attr_accessor :minio_data_directory,
-                  :minio_root_user,
+    attr_accessor :cache_time, :buckets, :public_buckets, :log_level
+    attr_accessor :minio_root_user,
                   :minio_root_password,
                   :minio_domain,
                   :minio_port,
                   :minio_console_port
+
+    attr_reader :install_dir, :minio_data_directory
 
     DEFAULT_INSTALL_DIR = "~/.minio_runner"
     DEFAULT_CACHE_TIME = 86_400 # 24 hours in seconds
