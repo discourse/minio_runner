@@ -42,6 +42,9 @@ setup and teardown for rspec.
 # is greater than the installed version.
 MinioRunner.start
 
+# Start the server without attempting to locate or download the minio binary
+MinioRunner.start(install: false)
+
 # Stop the currently running server.
 MinioRunner.stop
 ```

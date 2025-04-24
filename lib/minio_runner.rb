@@ -46,10 +46,10 @@ module MinioRunner
           end
     end
 
-    def start
+    def start(install: true)
       logger.debug("Starting minio_runner...")
 
-      install_binaries
+      install_binaries if install
       start_server
       setup_alias
       setup_buckets
