@@ -3,6 +3,7 @@
 module MinioRunner
   class Config
     attr_accessor :cache_time, :buckets, :public_buckets, :log_level
+    attr_accessor :mc_binary_download_url, :minio_binary_download_url
     attr_accessor :minio_root_user,
                   :minio_root_password,
                   :minio_domain,
@@ -36,6 +37,8 @@ module MinioRunner
         "Password for minio server root user (default #{DEFAULT_MINIO_ROOT_PASSWORD})",
       minio_console_port: "Port for minio server console (default #{DEFAULT_MINIO_CONSOLE_PORT})",
       minio_port: "Port for minio server (default #{DEFAULT_MINIO_PORT})",
+      mc_binary_download_url: "Download url for mc binary",
+      minio_binary_download_url: "Download url for minio binary",
     }
 
     def initialize
@@ -51,6 +54,10 @@ module MinioRunner
       self.minio_domain = System.env(:minio_domain) || "localhost"
       self.minio_port = System.env(:minio_port) || DEFAULT_MINIO_PORT
       self.minio_console_port = System.env(:minio_console_port) || DEFAULT_MINIO_CONSOLE_PORT
+
+      # minio downloads configuration
+      self.mc_binary_download_url = System.env(:mc_binary_download_url)
+      self.minio_binary_download_url = System.env(:minio_binary_download_url)
     end
 
     def install_dir=(dir)

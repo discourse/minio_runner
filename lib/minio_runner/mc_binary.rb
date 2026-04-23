@@ -13,6 +13,10 @@ module MinioRunner
         "https://dl.min.io/client/mc/release"
       end
 
+      def platform_binary_url
+        MinioRunner.config.mc_binary_download_url || "#{platform_base_url}#{name}"
+      end
+
       def platform_base_url
         if System.linux?
           "#{base_url}/linux-amd64/"

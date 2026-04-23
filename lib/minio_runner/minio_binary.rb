@@ -14,7 +14,7 @@ module MinioRunner
       end
 
       def platform_binary_url
-        "#{platform_base_url}#{name}"
+        MinioRunner.config.minio_binary_download_url || "#{platform_base_url}#{name}"
       end
 
       def platform_sha256sum_url
