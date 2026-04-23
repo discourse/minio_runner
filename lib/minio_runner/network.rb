@@ -20,8 +20,10 @@ module MinioRunner
       127.0.0.1 minio.local testbucket.minio.local
     END
 
+    MAX_REDIRECTS = 5
+
     class << self
-      def get(url)
+      def get(url, redirect_limit: MAX_REDIRECTS)
         MinioRunner.logger.debug("Making network call to #{url}")
         uri = URI(url)
         response = nil
@@ -33,7 +35,7 @@ module MinioRunner
             uri.port,
             use_ssl: uri.scheme == "https",
             open_timeout: MinioRunner::System.mac? ? 10 : 3,
-          ) { |http| response = http.get(uri.path) }
+          ) { |http| response = http.get(uri.request_uri) }
         rescue SocketError, Net::OpenTimeout => err
           MinioRunner.logger.debug(
             "Connection error when checking minio server health: #{err.message}",
@@ -50,6 +52,11 @@ module MinioRunner
         when Net::HTTPSuccess
           log_time_error(request_start_time)
           response.body
+        when Net::HTTPRedirection
+          raise MinioRunner::Network::NetworkError.new("Too many redirects for #{url}") if redirect_limit <= 0
+          location = response["location"]
+          MinioRunner.logger.debug("Following redirect to #{location}")
+          get(location, redirect_limit: redirect_limit - 1)
         else
           raise MinioRunner::Network::NetworkError.new(
                   "#{response.class::EXCEPTION_TYPE}: #{response.code} \"#{response.message}\" with #{url}",
