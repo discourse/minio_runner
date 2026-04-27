@@ -8,8 +8,10 @@ module MinioRunner
   # Also used to check whether /etc/hosts is configured properly; some platforms
   # (read: macOS) have to be configured in a certain way to avoid this.
   class MinioHealthCheck
+    DEFAULT_RETRIES = 10
+
     class << self
-      def call(retries: 2, initial_retries: nil)
+      def call(retries: DEFAULT_RETRIES, initial_retries: nil)
         initial_retries ||= retries
         begin
           Network.get("#{MinioRunner.config.minio_server_url}/minio/health/live")

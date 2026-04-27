@@ -48,7 +48,7 @@ module MinioRunner
       @process.start
 
       # Make sure the minio server is ready to accept requests.
-      MinioRunner::MinioHealthCheck.call(retries: 2)
+      MinioRunner::MinioHealthCheck.call
 
       MinioRunner.logger.debug("minio server running at pid #{@process.pid}!")
     end
